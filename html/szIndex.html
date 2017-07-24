@@ -3,22 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>工作台（水质）</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
-    <link href="css/docs.css" rel="stylesheet">
-    <script src="js/jquery-1.11.2.min.js" ></script>
-    <script src="js/bootstrap.js" ></script>
-    <script src="js/vue.js" ></script>
-    <script src="js/echarts.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-4 col-sm-6 col-xs-12" v-for="data in datas">
+<div style="padding-top: 10px" class="container-fluid">
+    <div id="div_sz" class="row">
+        <div class="col-lg-4 col-sm-6 col-xs-12 paddingRightNull" v-for="data in datas">
             <div class="panel panel-primary">
                 <div class="panel-heading" data-toggle="modal" data-target="#myModal">
                     {{data.name}}
-
                 </div>
                 <div class="panel-body">
                     <span class="pull-left">时间：{{data.time}}</span>
@@ -45,34 +37,6 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-4" v-for="index_1 in 3">
-            <table class="table table-bordered bg-warning" style="margin-bottom: 0px;">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>监测项目</th>
-                    <th>1级</th>
-                    <th>2级</th>
-                    <th>3级</th>
-                    <th>4级</th>
-                    <th>5级</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(data,index) in items" v-if="Math.floor(index/2)===index_1-1">
-                    <td>{{++index}}</td>
-                    <td>{{data.name}}</td>
-                    <td>{{data.leval1}}</td>
-                    <td>{{data.leval2}}</td>
-                    <td>{{data.leval3}}</td>
-                    <td>{{data.leval4}}</td>
-                    <td>{{data.leval5}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
     <div class="modal fade" id="myModal">
         <div class="modal-dialog" style="width: 1002px">
@@ -95,7 +59,7 @@
 </div>
 <script type="text/javascript">
     var app = new Vue({
-        el:'.container-fluid',
+        el:'#div_sz',
         data:{
             datas:[
                 {
@@ -410,57 +374,6 @@
                         }
                     ]
                 }
-            ],
-            items:[
-                {
-                    name:'总氮',
-                    leval1:'0~0.2',
-                    leval2:'0.2~0.5',
-                    leval3:'0.5~1.0',
-                    leval4:'1.0~1.5',
-                    leval5:'1.5~2.0'
-                },
-                {
-                    name:'ph',
-                    leval1:'6~9',
-                    leval2:'6~9',
-                    leval3:'6~9',
-                    leval4:'6~9',
-                    leval5:'6~9'
-                },
-                {
-                    name:'溶解氧',
-                    leval1:'7.5~100',
-                    leval2:'6~7.5',
-                    leval3:'5~6',
-                    leval4:'3~5',
-                    leval5:'2~3'
-                },
-                {
-                    name:'总磷',
-                    leval1:'0~0.02',
-                    leval2:'0.02~0.1',
-                    leval3:'0.1~0.2',
-                    leval4:'0.2~0.3',
-                    leval5:'0.3~0.4'
-                },
-                {
-                    name:'高锰酸盐指数',
-                    leval1:'0~2',
-                    leval2:'2~4',
-                    leval3:'4~6',
-                    leval4:'6~10',
-                    leval5:'10~15'
-                },
-                {
-                    name:'氨氮',
-                    leval1:'0~0.15',
-                    leval2:'0.15~0.5',
-                    leval3:'0.5~1.0',
-                    leval4:'1.0~1.5',
-                    leval5:'1.5~2.0'
-                }
-
             ]
         }
     });
@@ -469,9 +382,9 @@
 
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('mainChart'));
+    let myChart = echarts.init(document.getElementById('mainChart'));
 
-    var data = [
+    let data = [
         [1,55,9,56,0.46,18,6,"良"],
         [2,25,11,21,0.65,34,9,"优"],
         [3,56,7,63,0.3,14,5,"良"],
@@ -482,7 +395,7 @@
 
     ];
 
-    var schema = [
+    let schema = [
         {name: 'date', index: 0, text: '日期'},
         {name: 'AQIindex', index: 1, text: 'AQI'},
         {name: 'PM25', index: 2, text: 'PM2.5'},
@@ -493,14 +406,14 @@
         {name: '等级', index: 7, text: '等级'}
     ];
 
-    var lineStyle = {
+    let lineStyle = {
         normal: {
             width: 1,
             opacity: 0.5
         }
     };
 
-    var option = {
+    let option = {
         backgroundColor: '#dff0d8',
         legend: {
             bottom: 30,
@@ -524,16 +437,6 @@
             {dim: 7, name: schema[7].text,
                 type: 'category', data: ['优', '良', '轻度污染', '中度污染', '重度污染', '严重污染']}
         ],
-        /*visualMap: {
-            show: true,
-            min: 0,
-            max: 150,
-            dimension: 2,
-            inRange: {
-                color: ['#d94e5d','#eac736','#50a3ba'].reverse(),
-                // colorAlpha: [0, 1]
-            }
-        },*/
         parallel: {
             left: '5%',
             right: '18%',

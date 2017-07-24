@@ -9,12 +9,16 @@
     <script src="js/jquery-1.11.2.min.js" ></script>
     <script src="js/bootstrap.js" ></script>
     <script src="js/vue.js" ></script>
+    <script src="js/echarts.min.js"></script>
     <script src="js/data.js" ></script>
     <script src="js/Util.js" ></script>
     <style>
         .panel-group .panel + .panel {
             margin-top: 20px !important;
             text-align: center !important;
+        }
+        .paddingRightNull{
+            padding-right: 0px;
         }
     </style>
 </head>
@@ -56,7 +60,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingFour">
                         <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#"
+                            <a onclick="changeHtml()" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#sqjk"
                                aria-expanded="false" aria-controls="collapseFour">
                                 水情监测
                             </a>
@@ -92,7 +96,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingSeven">
                         <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#"
+                            <a onclick="changeHtml()" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#szIndex"
                                aria-expanded="false" aria-controls="collapseSeven">
                                 水质监测
                             </a>
