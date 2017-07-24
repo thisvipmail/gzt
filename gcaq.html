@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>工作台（工程）</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/docs.css" rel="stylesheet">
+    <script src="js/jquery-1.11.2.min.js" ></script>
+    <script src="js/bootstrap.js" ></script>
+    <script src="js/vue.js" ></script>
+    <script src="js/echarts.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 col-xs-12" style="height: 100vh">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    报警信息
+                </div>
+                <div class="panel-body">
+                    <span class="pull-left">时间：</span>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>监测项目</th>
+                        <th>检测值</th>
+                        <th>水质等级</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>111</td>
+                        <td>222</td>
+                        <td>333</td>
+                        <td>444</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-lg-4 col-sm-6 col-xs-12" v-for="data in datas">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {{data.name}}
+                </div>
+                <div class="panel-body">
+                    <span class="pull-left">时间：{{data.time}}</span>
+                    <span class="pull-right" v-bind:class="{'text-danger': data.level>'C' }">等级：{{data.level}}</span>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>监测项目</th>
+                        <th>检测值</th>
+                        <th>水质等级</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item, index) in data.itemData" v-bind:class="{'text-danger': item.level>'C' }">
+                        <td>{{++index}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.value}}</td>
+                        <td>{{item.level}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el:'.container-fluid',
+        data:{
+            datas:[
+                {
+                    name:'东平湖北出口水质监测站',
+                    time:'2017-06-30 16:40',
+                    level:'A',
+                    itemData:[
+                        {
+                            name:'总氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'导电率',
+                            value:'12',
+                            level:'B'
+                        },
+                        {
+                            name:'PH值',
+                            value:'1',
+                            level:'C'
+                        },
+                        {
+                            name:'溶解氧',
+                            value:'12',
+                            level:'D'
+                        },
+                        {
+                            name:'总磷',
+                            value:'12',
+                            level:'E'
+                        },
+                        {
+                            name:'高锰酸盐指数',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'水温',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'氨氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'浑浊度',
+                            value:'22',
+                            level:'B'
+                        }
+                    ]
+                },
+                {
+                    name:'南四湖出口水质监测站',
+                    time:'2017-06-30 16:40',
+                    level:'D',
+                    itemData:[
+                        {
+                            name:'总氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'导电率',
+                            value:'12',
+                            level:'B'
+                        },
+                        {
+                            name:'PH值',
+                            value:'1',
+                            level:'C'
+                        },
+                        {
+                            name:'溶解氧',
+                            value:'12',
+                            level:'D'
+                        },
+                        {
+                            name:'总磷',
+                            value:'12',
+                            level:'E'
+                        },
+                        {
+                            name:'高锰酸盐指数',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'水温',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'氨氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'浑浊度',
+                            value:'22',
+                            level:'B'
+                        }
+                    ]
+                },
+                {
+                    name:'临清市界水质监测站',
+                    time:'2017-06-30 16:40',
+                    level:'A',
+                    itemData:[
+                        {
+                            name:'总氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'导电率',
+                            value:'12',
+                            level:'B'
+                        },
+                        {
+                            name:'PH值',
+                            value:'1',
+                            level:'C'
+                        },
+                        {
+                            name:'溶解氧',
+                            value:'12',
+                            level:'D'
+                        },
+                        {
+                            name:'总磷',
+                            value:'12',
+                            level:'E'
+                        },
+                        {
+                            name:'高锰酸盐指数',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'水温',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'氨氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'浑浊度',
+                            value:'22',
+                            level:'B'
+                        }
+                    ]
+                },
+                {
+                    name:'穿黄管理处水质监测站',
+                    time:'2017-06-30 16:40',
+                    level:'A',
+                    itemData:[
+                        {
+                            name:'总氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'导电率',
+                            value:'12',
+                            level:'B'
+                        },
+                        {
+                            name:'PH值',
+                            value:'1',
+                            level:'C'
+                        },
+                        {
+                            name:'溶解氧',
+                            value:'12',
+                            level:'D'
+                        },
+                        {
+                            name:'总磷',
+                            value:'12',
+                            level:'E'
+                        },
+                        {
+                            name:'高锰酸盐指数',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'水温',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'氨氮',
+                            value:'12',
+                            level:'A'
+                        },
+                        {
+                            name:'浑浊度',
+                            value:'22',
+                            level:'B'
+                        }
+                    ]
+                }
+            ]
+        }
+    });
+
+</script>
+</body>
+</html>

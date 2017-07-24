@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <script src="js/jquery-1.11.2.min.js" ></script>
+    <script src="js/bootstrap.js" ></script>
+</head>
+<body>
+
+<div class="modal fade" id="waitModal">
+    <div class="modal-dialog" style="position:absolute;left:45%;transform:translateX(-45%);top:45%;transform:translateY(-45%)">
+        <div class="modal-content" style="width: 158px">
+            <div class="modal-body">
+                <img src="pic/waiting.gif" >
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" onclick="$('#waitModal').modal({backdrop: 'static', keyboard: false})">显示</button>
+<button type="button" onclick="$('#waitModal').modal('show')">显示</button>
+<button type="button" onclick="$('#waitModal').modal('hide')">隐藏</button>
+</body>
+</html>
