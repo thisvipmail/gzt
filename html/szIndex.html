@@ -3,10 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>工作台（水质）</title>
+    <style>
+        .div-height{
+            height: calc(100vh - 110px - 10px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+        @media (min-height: 1080px) {
+            .div-height {
+                overflow-y: hidden;
+            }
+        }
+    </style>
 </head>
 <body>
 <div style="padding-top: 10px" class="container-fluid">
-    <div id="div_sz" class="row">
+    <div id="div_sz" class="row div-height">
         <div class="col-lg-4 col-sm-6 col-xs-12 paddingRightNull" v-for="data in datas">
             <div class="panel panel-primary">
                 <div class="panel-heading" data-toggle="modal" data-target="#myModal">
