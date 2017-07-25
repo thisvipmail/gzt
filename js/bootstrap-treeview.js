@@ -69,7 +69,10 @@
 		onNodeUnchecked: undefined,
 		onNodeUnselected: undefined,
 		onSearchComplete: undefined,
-		onSearchCleared: undefined
+		onSearchCleared: undefined,
+
+		//LN修改，增加属性
+		lastLevelSelect:false
 	};
 
 	_default.options = {
@@ -315,9 +318,7 @@
 	};
 
 	Tree.prototype.clickHandler = function (event) {
-
 		if (!this.options.enableLinks) event.preventDefault();
-
 		var target = $(event.target);
 		var node = this.findNode(target);
 		if (!node || node.state.disabled) return;
@@ -518,6 +519,7 @@
 				.addClass(node.state.selected ? 'node-selected' : '')
 				.addClass(node.searchResult ? 'search-result' : '') 
 				.attr('data-nodeid', node.nodeId)
+				.attr('data-id', node.id)
 				.attr('style', _this.buildStyleOverride(node));
 
 			// Add indent/spacer to mimic tree structure
@@ -529,6 +531,11 @@
 			var classList = [];
 			if (node.nodes) {
 				classList.push('expand-icon');
+				/**
+				 * LN增加
+				 */
+				_this.options.lastLevelSelect ? treeItem.addClass('expand-icon'):"";
+
 				if (node.state.expanded) {
 					classList.push(_this.options.collapseIcon);
 				}
@@ -540,10 +547,7 @@
 				classList.push(_this.options.emptyIcon);
 			}
 
-			treeItem
-				.append($(_this.template.icon)
-					.addClass(classList.join(' '))
-				);
+			treeItem.append($(_this.template.icon)	.addClass(classList.join(' ')));
 
 
 			// Add node icon
@@ -805,7 +809,6 @@
 		this.forEachIdentifier(identifiers, options, $.proxy(function (node, options) {
 			this.setSelectedState(node, true, options);
 		}, this));
-
 		this.render();
 	};
 
