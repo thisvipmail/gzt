@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>调度优化</title>
+    <style>
+        .div-height{
+            height: calc(100vh - 110px - 45px);
+            padding: 0px;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+        @media (min-height: 1080px) {
+            .div-height{
+                overflow-y: scroll;
+            }
+        }
+        .col-lg-9 {
+            width: 80%;
+        }
+        .col-lg-3{
+            width: 20%;
+        }
+        th{
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-2 visible-lg" style="padding-right: 0px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                查询选择列表
+            </div>
+            <div id="treeDiv" class="panel-body div-height">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-12" style="padding-left: 0px">
+        <div id="vueDiv" class="panel panel-primary div-height" style="margin-bottom: 0px;">
+            <div class="panel-heading">
+                增删改查
+            </div>
+            <table class="table table-striped" >
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>名称</th>
+                    <th>目标流量<small>(m³/s)</small></th>
+                    <th>上游水位<small>(m)</small></th>
+                    <th>下游水位<small>(m)</small></th>
+                    <th>机组开启台数</th>
+                    <th>1#叶片角度</th>
+                    <th>2#叶片角度</th>
+                    <th>3#叶片角度</th>
+                    <th>4#叶片角度</th>
+                    <th>5#叶片角度</th>
+                    <th>电量单价<small>(元)</small></th>
+                    <th>运行时长<small>(小时)</small></th>
+                    <th>预计电费<small>(元)</small></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item, index) in yhData">
+                    <td>{{++index+page*15}}</td>
+                    <td>{{getName(item.pumpId)}}</td>
+                    <td>{{item.flow}}</td>
+                    <td>{{item.waterLevel1}}</td>
+                    <td>{{item.waterLevel2}}</td>
+                    <td>{{item.nums}}</td>
+                    <td>{{item.angle1}}</td>
+                    <td>{{item.angle2}}</td>
+                    <td>{{item.angle3}}</td>
+                    <td>{{item.angle4}}</td>
+                    <td>{{item.angle5}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.long}}</td>
+                    <td>{{item.total}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="page" class="m-pagination" style="margin: 0px"></div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+
+    /**
+     * 加载树形结构
+     */
+    let p1 = Promise.resolve(
+            $("#treeDiv").load("component/tree.html",function(){
+                loadTree("json/pumpTree.json",function(node){
+                    console.log(node);
+                    page ? $("#page").page("destroy") : "";
+                });
+            })
+    );
+    /**
+     * 获取泵站options
+     * @type {Array}
+     */
+    let p2 = Promise.resolve(
+            $.ajax({
+                url: "json/pumpTree.json",
+                type: "get",
+                async: false,
+                dataType:'json'
+            })
+    );
+
+    /**
+     * 获取流量options
+     * @type {Array}
+     */
+    let p3 = Promise.resolve(
+            $.ajax({
+                url: "json/flowKind.json",
+                type: "get",
+                async: false,
+                dataType:'json'
+            })
+    );
+
+    /**
+     * 需要从数据库获取数据
+     * 伪数据
+     */
+    let initData = function (page,nums) {
+        return Array.apply({},{length:nums}).map(function(_,index){
+            return {
+                id : Math.random(),
+                pumpId : ['LRLN010012','LRLN010052','LRLN010095','LRLN030015','LRLN040012','LRLN040052','LRLN050012'].slice(index%7,index%7+1)[0],
+                flow : [80,85,90,95,100,105,110].slice(index%7,index%7+1)[0],
+                waterLevel1 : Math.floor(Math.random()*50),
+                waterLevel2 : Math.floor(Math.random()*50),
+                nums : Math.floor(Math.random()*3),
+                angle1 : Math.floor(Math.random()*90),
+                angle2 : Math.floor(Math.random()*90),
+                angle3 : Math.floor(Math.random()*90),
+                angle4 : Math.floor(Math.random()*90),
+                angle5 : Math.floor(Math.random()*90),
+                price : (Math.random()*10).toFixed(2),
+                long : Math.floor(Math.random()*1000),
+                total : Math.floor(Math.random()*10000)
+            }
+        });
+    };
+    let p4 = Promise.resolve(
+            initData(1,15)
+    );
+
+    /**
+     * 分页
+     * @type {boolean}
+     */
+    let isPage = true,page;
+    Promise.all([p1,p2,p3,p4]).then(function([arg,pumpData,flowKind,data]){
+        console.log(arg,pumpData,flowKind,data);
+        if(isPage){
+            page = $("#page").page({
+                loadFirstPage:false,
+                total: 100,
+                pageSize: 15,
+                firstBtnText: '首页',
+                lastBtnText: '尾页',
+                prevBtnText: '上一页',
+                nextBtnText: '下一页',
+                showInfo: true,
+                showJump: true,
+                jumpBtnText: '跳转',
+                infoFormat: '{start} ~ {end}条，共{total}条'
+            }).on("pageClicked", function (event, pageIndex) {
+                vue.yhData = initData(pageIndex+1,15);
+                vue.page = pageIndex;
+            }).on('jumpClicked', function (event, pageIndex) {
+                vue.yhData =  initData(pageIndex+1,15);
+                vue.page = pageIndex;
+            });
+        }
+        let vue = new Vue({
+            el:'#vueDiv',
+            data:{
+                yhData:data,
+                page:0
+            },
+            methods:{
+                getName: function (id) {
+                    return pumpData.nodes.filter(function (currentValue,index,arr) {
+                        if(currentValue.id === id){
+                            return currentValue
+                        }
+                    })[0].text;
+                }
+            }
+        });
+    });
+
+
+    /*if(isPage){
+        page = $("#page").page({
+            loadFirstPage:false,
+            total: 100,
+            pageSize: 15,
+            firstBtnText: '首页',
+            lastBtnText: '尾页',
+            prevBtnText: '上一页',
+            nextBtnText: '下一页',
+            showInfo: true,
+            showJump: true,
+            jumpBtnText: '跳转',
+            infoFormat: '{start} ~ {end}条，共{total}条'
+        }).on("pageClicked", function (event, pageIndex) {
+            console.log(pageIndex+1,15);
+        }).on('jumpClicked', function (event, pageIndex) {
+            console.log(pageIndex+1,15);
+        });
+    }*/
+
+
+</script>
+</html>

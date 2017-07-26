@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>工作台（指令）</title>
+    <link href="css/jquery.pagination.css" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="css/docs.css" rel="stylesheet">
     <script src="js/jquery-1.11.2.min.js" ></script>
+    <script src="js/jquery.pagination-1.2.7.min.js" ></script>
     <script src="js/bootstrap.js" ></script>
     <script src="js/vue.js" ></script>
     <script src="js/echarts.min.js"></script>
@@ -106,7 +108,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingEight">
                         <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#"
+                            <a onclick="changeHtml()" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#ddyh"
                                aria-expanded="false" aria-controls="collapseEight">
                                 优化调度
                             </a>

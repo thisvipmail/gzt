@@ -450,6 +450,9 @@
 <script type="text/javascript">
     $(function(){
         $("#treeDiv").load("component/tree.html",function(){
+            loadTree("json/tree.json",function(node){
+                console.log(node);
+            });
         });
     });
 
