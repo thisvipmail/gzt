@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>调度优化</title>
+    <link rel="stylesheet" href="css/bootstrap-table.css">
+    <script src="js/bootstrap-table.js"></script>
+    <script src="js/bootstrap-table-zh-CN.js"></script>
     <style>
         .div-height{
             height: calc(100vh - 110px - 45px);
             padding: 0px;
-            overflow-y: hidden;
+            overflow-y: scroll;
             overflow-x: hidden;
         }
-        @media (min-height: 1080px) {
+        @media (min-height: 798px) {
             .div-height{
-                overflow-y: scroll;
+                overflow-y: hidden;
             }
         }
-        .col-lg-9 {
-            width: 80%;
+        .div-height-2{
+            height: calc(100vh - 110px - 85px);
+            overflow-y: hidden;
         }
-        .col-lg-3{
-            width: 20%;
+        .titleBtn{
+            color: #fff;
+            padding-top : 0px;
+            padding-bottom : 0px;
+            border: 0px;
         }
         th{
             padding-left: 0px !important;
@@ -34,70 +41,75 @@
             <div class="panel-heading">
                 查询选择列表
             </div>
-            <div id="treeDiv" class="panel-body div-height">
+            <div id="treeDiv" class="panel-body div-height" style="overflow-y: hidden">
 
             </div>
         </div>
     </div>
     <div class="col-lg-10 col-md-12" style="padding-left: 0px">
-        <div id="vueDiv" class="panel panel-primary div-height" style="margin-bottom: 0px;">
+        <div id="vueDiv" class="panel panel-primary" style="margin-bottom: 0px;">
             <div class="panel-heading">
-                增删改查
+                <a class="btn btn-link titleBtn">增加</a>
+                <a class="btn btn-link titleBtn">修改</a>
+                <a class="btn btn-link titleBtn">删除</a>
+                <a class="btn btn-link pull-right titleBtn">优化分析</a>
             </div>
-            <table class="table table-striped" >
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>名称</th>
-                    <th>目标流量<small>(m³/s)</small></th>
-                    <th>上游水位<small>(m)</small></th>
-                    <th>下游水位<small>(m)</small></th>
-                    <th>机组开启台数</th>
-                    <th>1#叶片角度</th>
-                    <th>2#叶片角度</th>
-                    <th>3#叶片角度</th>
-                    <th>4#叶片角度</th>
-                    <th>5#叶片角度</th>
-                    <th>电量单价<small>(元)</small></th>
-                    <th>运行时长<small>(小时)</small></th>
-                    <th>预计电费<small>(元)</small></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(item, index) in yhData">
-                    <td>{{++index+page*15}}</td>
-                    <td>{{getName(item.pumpId)}}</td>
-                    <td>{{item.flow}}</td>
-                    <td>{{item.waterLevel1}}</td>
-                    <td>{{item.waterLevel2}}</td>
-                    <td>{{item.nums}}</td>
-                    <td>{{item.angle1}}</td>
-                    <td>{{item.angle2}}</td>
-                    <td>{{item.angle3}}</td>
-                    <td>{{item.angle4}}</td>
-                    <td>{{item.angle5}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.long}}</td>
-                    <td>{{item.total}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="div-height div-height-2">
+                <table id="tableContent" class="table table-striped table-bordered text-center" style="margin: 0px" >
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>名称</th>
+                        <th>目标流量<small>(m³/s)</small></th>
+                        <th>上游水位<small>(m)</small></th>
+                        <th>下游水位<small>(m)</small></th>
+                        <th>机组开启台数</th>
+                        <th>1#叶片角度</th>
+                        <th>2#叶片角度</th>
+                        <th>3#叶片角度</th>
+                        <th>4#叶片角度</th>
+                        <th>5#叶片角度</th>
+                        <th>电量单价<small>(元)</small></th>
+                        <th>运行时长<small>(小时)</small></th>
+                        <th>预计电费<small>(元)</small></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item, index) in yhData">
+                        <td>{{++index+page*15}}</td>
+                        <td>{{getName(item.pumpId)}}</td>
+                        <td>{{item.flow}}</td>
+                        <td>{{item.waterLevel1}}</td>
+                        <td>{{item.waterLevel2}}</td>
+                        <td>{{item.nums}}</td>
+                        <td>{{item.angle1}}</td>
+                        <td>{{item.angle2}}</td>
+                        <td>{{item.angle3}}</td>
+                        <td>{{item.angle4}}</td>
+                        <td>{{item.angle5}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.long}}</td>
+                        <td>{{item.total}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div id="page" class="m-pagination" style="margin: 0px"></div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
-
-
     /**
      * 加载树形结构
      */
     let p1 = Promise.resolve(
             $("#treeDiv").load("component/tree.html",function(){
                 loadTree("json/pumpTree.json",function(node){
-                    console.log(node);
-                    page ? $("#page").page("destroy") : "";
+                    $("#page").page("destroy");
+                    vue.yhData = initData(1,15,node.id);
+                    pagination(15);
+                    vue.page = 0;
                 });
             })
     );
@@ -131,7 +143,7 @@
      * 需要从数据库获取数据
      * 伪数据
      */
-    let initData = function (page,nums) {
+    let initData = function (page,nums,nodeId) {
         return Array.apply({},{length:nums}).map(function(_,index){
             return {
                 id : Math.random(),
@@ -159,31 +171,32 @@
      * 分页
      * @type {boolean}
      */
-    let isPage = true,page;
+    let pagination = function (total) {
+        $("#page").page({
+            loadFirstPage:false,
+            total: total,
+            pageSize: 15,
+            firstBtnText: '首页',
+            lastBtnText: '尾页',
+            prevBtnText: '上一页',
+            nextBtnText: '下一页',
+            showInfo: true,
+            showJump: true,
+            jumpBtnText: '跳转',
+            infoFormat: '{start} ~ {end}条，共{total}条'
+        }).on("pageClicked", function (event, pageIndex) {
+            vue.yhData = initData(pageIndex+1,15);
+            vue.page = pageIndex;
+        }).on('jumpClicked', function (event, pageIndex) {
+            vue.yhData =  initData(pageIndex+1,15);
+            vue.page = pageIndex;
+        });
+    };
+
+    let isPage = true,vue;
     Promise.all([p1,p2,p3,p4]).then(function([arg,pumpData,flowKind,data]){
-        console.log(arg,pumpData,flowKind,data);
-        if(isPage){
-            page = $("#page").page({
-                loadFirstPage:false,
-                total: 100,
-                pageSize: 15,
-                firstBtnText: '首页',
-                lastBtnText: '尾页',
-                prevBtnText: '上一页',
-                nextBtnText: '下一页',
-                showInfo: true,
-                showJump: true,
-                jumpBtnText: '跳转',
-                infoFormat: '{start} ~ {end}条，共{total}条'
-            }).on("pageClicked", function (event, pageIndex) {
-                vue.yhData = initData(pageIndex+1,15);
-                vue.page = pageIndex;
-            }).on('jumpClicked', function (event, pageIndex) {
-                vue.yhData =  initData(pageIndex+1,15);
-                vue.page = pageIndex;
-            });
-        }
-        let vue = new Vue({
+        pagination(100);
+        vue = new Vue({
             el:'#vueDiv',
             data:{
                 yhData:data,
@@ -199,29 +212,20 @@
                 }
             }
         });
+        //bootstrapTable();
     });
 
-
-    /*if(isPage){
-        page = $("#page").page({
-            loadFirstPage:false,
-            total: 100,
-            pageSize: 15,
-            firstBtnText: '首页',
-            lastBtnText: '尾页',
-            prevBtnText: '上一页',
-            nextBtnText: '下一页',
-            showInfo: true,
-            showJump: true,
-            jumpBtnText: '跳转',
-            infoFormat: '{start} ~ {end}条，共{total}条'
-        }).on("pageClicked", function (event, pageIndex) {
-            console.log(pageIndex+1,15);
-        }).on('jumpClicked', function (event, pageIndex) {
-            console.log(pageIndex+1,15);
+</script>
+<script>
+    function bootstrapTable(){
+        $('#tableContent').bootstrapTable({});
+        $('#tableContent').bootstrapTable( 'resetView' , {height: $(".div-height-2").height()} );
+        $(window).resize(function(){
+            $('#tableContent').bootstrapTable( 'resetView' , {height: $(".div-height-2").height()} );
         });
-    }*/
-
-
+        $('#tableContent').on('click-row.bs.table', function (row,$element) {
+            console.log($element);
+        });
+    }
 </script>
 </html>
