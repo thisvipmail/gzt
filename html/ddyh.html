@@ -20,7 +20,7 @@
         }
         .div-height-2{
             height: calc(100vh - 110px - 85px);
-            overflow-y: hidden;
+            /*overflow-y: hidden;*/
         }
         .titleBtn{
             color: #fff;
@@ -55,10 +55,11 @@
                 <a class="btn btn-link pull-right titleBtn">优化分析</a>
             </div>
             <div class="div-height div-height-2">
-                <table id="tableContent" class="table table-striped table-bordered text-center" style="margin: 0px" >
+                <table class="table table-striped table-bordered text-center" style="margin: 0px" >
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th style="display: none">ID</th>
                         <th>名称</th>
                         <th>目标流量<small>(m³/s)</small></th>
                         <th>上游水位<small>(m)</small></th>
@@ -77,6 +78,7 @@
                     <tbody>
                     <tr v-for="(item, index) in yhData">
                         <td>{{++index+page*15}}</td>
+                        <td style="display: none">{{item.pumpId}}</td>
                         <td>{{getName(item.pumpId)}}</td>
                         <td>{{item.flow}}</td>
                         <td>{{item.waterLevel1}}</td>
@@ -100,6 +102,7 @@
 </div>
 </body>
 <script type="text/javascript">
+
     /**
      * 加载树形结构
      */
@@ -213,7 +216,32 @@
             }
         });
         //bootstrapTable();
+        /*$('tbody tr').click(function () {
+            console.log($(this));
+            var tr = $(this).children();
+            for(var i=1;i<tr.length;i++){
+                 = tr.eq(i).text();
+            }
+        });*/
+        trClick();
     });
+    let trClick = function () {
+        let oldTr = "",json = {};
+        $('tbody tr').click(function () {
+            oldTr ? oldTr.attr("class","") : "";
+            $(this).attr("class","success");
+            oldTr = $(this);
+            var tr = $(this).children();
+            for(var i=1;i<tr.length;i++){
+                json[jsonKey[i]] = tr.eq(i).text();
+            }
+            console.log(json);
+            //
+        })
+    }
+    const jsonKey = [
+        'id','pumpId','name','flow','waterLevel1','waterLevel2','nums','angle1','angle2','angle3','angle4','angle5','price','long','total'
+    ];
 
 </script>
 <script>
