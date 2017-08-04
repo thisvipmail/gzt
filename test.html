@@ -2,287 +2,258 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>测试</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
-    <link href="css/bootstrap-select.css" rel="stylesheet">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-table.css">
     <script src="js/jquery-1.11.2.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/bootstrap-select.js"></script>
-    <script src="js/defaults-zh_CN.js"></script>
-    <script src="js/echarts.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-table.js"></script>
+    <script src="js/bootstrap-table-zh-CN.js"></script>
+
 </head>
 <body>
-<div>
-    <!-- Nav tabs -->
-    <a class="btn btn-default" href="#home" aria-controls="home" data-toggle="tab">Home</a>
-    <a class="btn btn-default" href="#profile" aria-controls="profile" data-toggle="tab">Profile</a>
-    <a class="btn btn-default" href="#messages" aria-controls="messages" data-toggle="tab">Messages</a>
-    <a class="btn btn-default" href="#settings" aria-controls="settings" data-toggle="tab">Settings</a>
+<table data-toggle="table" id="teacher_table">
+    <thead>
+    <tr>
+        <th data-field="id">Item ID</th>
+        <th data-field="name">Item Name</th>
+        <th data-field="price">Item Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Item 2</td>
+        <td>$2</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Item 2</td>
+        <td>$2</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Item 2</td>
+        <td>$2</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Item 2</td>
+        <td>$2</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Item 2</td>
+        <td>$2</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane active" id="home">home</div>
-        <div class="tab-pane" id="profile">profile</div>
-        <div class="tab-pane" id="messages">messages</div>
-        <div class="tab-pane" id="settings">settings</div>
-    </div>
-    <a class="btn btn-default" href="#home1" data-toggle="tab">Home1</a>
-    <a class="btn btn-default" href="#profile1" data-toggle="tab">Profile1</a>
-    <a class="btn btn-default" href="#messages1" data-toggle="tab">Messages1</a>
-    <a class="btn btn-default" href="#settings1" data-toggle="tab">Settings1</a>
-
-    <div class="tab-content">
-        <div class="tab-pane active" id="home1">home1</div>
-        <div class="tab-pane" id="profile1">profile1</div>
-        <div class="tab-pane" id="messages1">messages1</div>
-        <div class="tab-pane" id="settings1">settings1</div>
-    </div>
-</div>
-<select class="selectpicker dropdown" multiple data-actions-box="true" data-size="5"
-        data-selected-text-format="count > 3">
-    <option disabled>Mustard</option>
-    <option disabled="false">Ketchup</option>
-    <option>Relish</option>
-    <option>Mustard</option>
-    <option>Ketchup</option>
-    <option>Relish</option>
-</select>
-<hr>
-<div id="test"></div>
-<div class="modal fade" id="waitModal">
-    <div class="modal-dialog"
-         style="position:absolute;left:45%;transform:translateX(-45%);top:45%;transform:translateY(-45%)">
-        <div class="modal-content" style="width: 158px">
-            <div class="modal-body">
-
-                <img src="pic/waiting.gif">
-            </div>
+    </tbody>
+</table>
+<table data-toggle="table">
+    <thead>
+    <tr>
+        <th>Item ID</th>
+        <th>Item Name</th>
+        <th>Item Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Item 2</td>
+        <td>$2</td>
+    </tr>
+    </tbody>
+</table>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form id="formSearch" class="form-horizontal">
+                <div class="form-group" style="margin-top:15px">
+                    <label class="control-label col-sm-1" for="txt_search_departmentname">部门名称</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="txt_search_departmentname">
+                    </div>
+                    <label class="control-label col-sm-1" for="txt_search_statu">状态</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="txt_search_statu">
+                    </div>
+                    <div class="col-sm-4" style="text-align:left;">
+                        <button type="button" style="margin-left:50px" id="btn_query" class="btn btn-primary">查询</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="modal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">内容修改</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">名称：</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="name" placeholder="名称" value="123">
-                        </div>
-                        <label for="flow" class="col-sm-2 control-label">目标流量：</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="flow" placeholder="目标流量(m³/s)">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="waterLevel1" class="col-sm-2 control-label">上游水位</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="waterLevel1" placeholder="上游水位(m)">
-                        </div>
-                        <label for="waterLevel2" class="col-sm-2 control-label">下游水位</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="waterLevel2" placeholder="下游水位(m)">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nums" class="col-sm-2 control-label">机组开启台数</label>
-
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="nums" placeholder="机组开启台数">
-                        </div>
-                        <label for="angle1" class="col-sm-2 control-label">1#叶片角度</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="angle1" placeholder="1#叶片角度">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="angle2" class="col-sm-2 control-label">2#叶片角度</label>
-
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="angle2" placeholder="2#叶片角度">
-                        </div>
-                        <label for="angle3" class="col-sm-2 control-label">3#叶片角度</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="angle3" placeholder="3#叶片角度">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="angle4" class="col-sm-2 control-label">4#叶片角度</label>
-
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="angle4" placeholder="4#叶片角度">
-                        </div>
-                        <label for="angle5" class="col-sm-2 control-label">5#叶片角度</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="angle5" placeholder="5#叶片角度">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="price" class="col-sm-2 control-label">电量单价(元)</label>
-
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="price" placeholder="电量单价(元)">
-                        </div>
-                        <label for="long" class="col-sm-2 control-label">运行时长(小时)</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="long" placeholder="运行时长(小时)">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="total" class="col-sm-2 control-label">预计电费(元)</label>
-
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="total" placeholder="预计电费(元)">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
-            </div>
-        </div>
+    <div id="toolbar" class="btn-group">
+        <button id="btn_add" type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+        </button>
+        <button id="btn_edit" type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+        </button>
+        <button id="btn_delete" type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+        </button>
     </div>
+    <table id="tb_departments"></table>
 </div>
-<button type="button" onclick="$('#waitModal').modal({backdrop: 'static', keyboard: false})">显示</button>
-<button type="button" onclick="$('#waitModal').modal('show')">显示</button>
-<button type="button" onclick="$('#waitModal').modal('hide')">隐藏</button>
-
-<button type="button" onclick="$('#modal').modal({backdrop: 'static', keyboard: false})">显示</button>
-<button type="button" onclick="$('#modal').modal('hide')">隐藏</button>
-<button type="button" onclick="show()">show</button>
-<hr>
-<div id="yearChart" style="width: 600px;height:400px;"></div>
-<div id="main" style="width: 600px;height:400px;"></div>
-</body>
 <script>
-    var yearChart = echarts.init(document.getElementById('yearChart'));
-    var option = {
-        "title": {"text": "水量统计曲线"},
-        "tooltip": {"trigger": "axis"},
-        "legend": {"data": ["上盆王分水闸", "东湖水库分水闸", "胡楼干渠分水闸", "樊家林分水闸", "引黄济淄分水闸", "道旭干渠分水闸", "博兴分水闸", "东营分水闸", "双王城水库分水闸", "阳谷莘县分水闸", "东昌府区分水闸", "聊城分水闸", "临清分水闸", "高唐分水闸", "茌平分水闸", "冠县分水闸"]},
-        "xAxis": {
-            "type": "category",
-            "boundaryGap": false,
-            "data": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
-        },
-        "yAxis": {"type": "value", "axisLabel": {"formatter": "{value} m³/s"}},
-        "series": [
-            {
-                "name": "上盆王分水闸",
-                "type": "line",
-                "data": [4, 2, 4, 3, 1, 4, 1, 1, 3, 2, 0, 2]
-            },
-            {
-                "name": "东湖水库分水闸",
-                "type": "line",
-                "data": [2, 1, 2, 1, 4, 5, 4, 3, 2, 4, 4, 2]
-            }, {
-                "name": "胡楼干渠分水闸",
-                "type": "line",
-                "data": [0, 1, 4, 4, 3, 1, 2, 2, 0, 1, 2, 3]
-            }, {
-                "name": "樊家林分水闸",
-                "type": "line",
-                "data": [1, 3, 4, 5, 1, 0, 2, 4, 1, 3, 1, 0]
-            }, {
-                "name": "引黄济淄分水闸",
-                "type": "line",
-                "data": [3, 4, 1, 3, 2, 1, 5, 5, 3, 5, 4, 3]
-            },
-            {
-                "name": "道旭干渠分水闸",
-                "type": "line",
-                "data": [4, 2, 2, 3, 4, 1, 4, 5, 1, 0, 2, 4]
-            }, {
-                "name": "博兴分水闸",
-                "type": "line",
-                "data": [5, 0, 2, 4, 4, 2, 1, 4, 2, 2, 3, 1]
-            }, {
-                "name": "东营分水闸",
-                "type": "line",
-                "data": [4, 1, 3, 4, 1, 2, 2, 3, 2, 1, 5, 3]
-            }, {
-                "name": "双王城水库分水闸",
-                "type": "line",
-                "data": [4, 3, 1, 0, 4, 4, 1, 5, 3, 1, 2, 3]
-            }, {
-                "name": "阳谷莘县分水闸",
-                "type": "line",
-                "data": [2, 0, 4, 3, 1, 4, 1, 5, 1, 0, 1, 4]
-            }, {
-                "name": "东昌府区分水闸",
-                "type": "line",
-                "data": [3, 1, 4, 5, 4, 5, 3, 5, 1, 3, 3, 1]
-            }, {
-                "name": "聊城分水闸",
-                "type": "line",
-                "data": [3, 4, 0, 4, 3, 4, 3, 4, 2, 3, 0, 5]
-            }, {
-                "name": "临清分水闸",
-                "type": "line",
-                "data": [1, 4, 1, 3, 3, 2, 4, 1, 1, 1, 3, 3]
-            }, {
-                "name": "高唐分水闸",
-                "type": "line",
-                "data": [1, 5, 3, 4, 1, 2, 3, 1, 5, 3, 3, 3]
-            }, {
-                "name": "茌平分水闸",
-                "type": "line",
-                "data": [3, 4, 1, 5, 5, 0, 2, 3, 3, 1, 1, 0]
-            }, {
-                "name": "冠县分水闸",
-                "type": "line",
-                "data": [3, 3, 1, 0, 3, 3, 4, 2, 0, 2, 2, 1]
-            }]
-    };
-    yearChart.setOption(yearOption);
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
+    $(function () {
 
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-            data:['销量']
-        },
-        xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-        },
-        yAxis: {},
-        series: [{
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+
+    });
+
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#tb_departments').bootstrapTable({
+                url: '/Home/GetDepartment', //请求后台的URL（*）
+                method: 'get', //请求方式（*）
+                toolbar: '#toolbar', //工具按钮用哪个容器
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber:1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
+                search: true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                showColumns: true, //是否显示所有的列
+                showRefresh: true, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                height: 500, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                showToggle:true, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'Name',
+                    title: '部门名称'
+                }, {
+                    field: 'ParentName',
+                    title: '上级部门'
+                }, {
+                    field: 'Level',
+                    title: '部门级别'
+                }, {
+                    field: 'Desc',
+                    title: '描述'
+                }, ]
+            });
+        };
+
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit, //页面大小
+                offset: params.offset, //页码
+                departmentname: $("#txt_search_departmentname").val(),
+                statu: $("#txt_search_statu").val()
+            };
+            return temp;
+        };
+        return oTableInit;
     };
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-    function show() {
-        $("#test").html(
-                '<select class="selectpicker dropdown" multiple data-actions-box="true" data-size="5" data-selected-text-format="count > 3"><option>Mustard</option><option>Ketchup</option><option>Relish</option><option>Mustard</option><option>Ketchup</option><option>Relish</option></select>'
-        )
-        $(".selectpicker").selectpicker('show');
-    }
+
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+
+        return oInit;
+    };
 </script>
+<script>
+    $('#teacher_table').bootstrapTable({
+        onClickRow: function (row) {
+            //alert("onClickRow");
+        },
+        onDblClickRow: function () {
+            alert("onDblClickRow");
+        }
+    });
+    $('#teacher_table').on('click-row.bs.table', function (row,$element) {
+        //alert("click-row.bs.table");
+    });
+    $('#teacher_table').bootstraptable('click-cell.bs.table',function( e, field, value, row, $element){
+        alert('click-cell.bs.table');
+    });
+    $('#teacher_table').bootstrapTable( 'onDblClickRow' , function (row,$element) {
+        alert("onDblClickRow");
+    } );
+    $('#teacher_table').bootstrapTable( 'resetView' , {height: 100} );
+    $(window).resize(function(){
+        $('#teacher_table').bootstrapTable( 'resetView' , {height: 300} );
+    });
+</script>
+</body>
+
 </html>
