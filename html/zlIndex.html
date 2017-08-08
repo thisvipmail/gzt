@@ -55,27 +55,27 @@
                     <div class="col-lg-5 text-center" style="font-size: 20px">
                         指令状态：
                         <div class="btn-group" style="margin-right: 20px">
-                            <button type="button" class="btn btn-default">默认所有</button>
+                            <button type="button" class="btn btn-default" v-on:click="query.status=''">默认所有</button>
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">未执行</a></li>
-                                <li><a href="#">正在执行</a></li>
+                                <li><a href="#" v-on:click="query.status=0">未执行</a></li>
+                                <li><a href="#" v-on:click="query.status=1">正在执行</a></li>
                             </ul>
                         </div>
                         所属渠道：
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default">默认所有</button>
+                            <button type="button" class="btn btn-default" v-on:click="query.ssqd=''">默认所有</button>
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">鲁南段</a></li>
-                                <li><a href="#">鲁北段</a></li>
-                                <li><a href="#">胶东段</a></li>
+                                <li><a href="#" v-on:click="query.ssqd='LN'">鲁南段</a></li>
+                                <li><a href="#" v-on:click="query.ssqd='LB'">鲁北段</a></li>
+                                <li><a href="#" v-on:click="query.ssqd='JD'">胶东段</a></li>
                             </ul>
                         </div>
                     </div>
@@ -105,14 +105,14 @@
                             <tbody>
                             <tr v-for="(data,index) in items" v-if="Math.floor(index/22)===page-1" v-bind:style="bgSuccess(data)">
                                 <td>{{++index}}</td>
-                                <td>{{data.name}}</td>
+                                <td>{{data.name+data.ssqd}}</td>
                                 <td>{{data.type===0?"开度":"流量"}}</td>
                                 <td>{{data.value}}</td>
                                 <td>{{data.waterLevel}}</td>
                                 <td>{{data.time}}</td>
                                 <td style="padding: 0px;">
-                                    <a class="btn btn-link btn-xs" style="font-size: 18px" disabled>急停</a>
-                                    <a class="btn btn-link btn-xs" style="font-size: 18px" >{{data.state}}查看</a>
+                                    <a class="btn btn-link btn-xs" style="font-size: 18px" v-on:click="stop(data)" v-bind:disabled="!data.state">急停</a>
+                                    <a class="btn btn-link btn-xs" style="font-size: 18px" v-on:click="view(data)" >{{data.state}}查看</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -135,40 +135,134 @@
             </div>
         </div>
 <script type="text/javascript">
-    var itemsData = Array.apply({},{length:64}).map(function(_,index){
-        return {
-            id:Math.random(),
-            name:'闸泵站'+index,
-            type:Math.round(Math.random()),
-            value:Math.floor(Math.random()*100),
-            waterLevel:(Math.random()*100).toFixed(2)+' / '+(Math.random()*100).toFixed(2),
-            time:'2017-07-06 11:00 —— 2017-07-07 11:00',
-            state:Math.round(Math.random())
+    function create(){
+        return Array.apply({},{length:64}).map(function(_,index){
+            return {
+                id:Math.random(),
+                name:'闸泵站'+index,
+                ssqd:['LN','LB','JD'][Math.round(Math.random()*2)],
+                type:Math.round(Math.random()),
+                value:Math.floor(Math.random()*100),
+                waterLevel:(Math.random()*100).toFixed(2)+' / '+(Math.random()*100).toFixed(2),
+                time:'2017-07-06 11:00 —— 2017-07-07 11:00',
+                state:Math.round(Math.random())
+            }
+        })
+    };
+    function* initzlData(){
+        while(true){
+            yield create();
         }
+    }
+    let getData = initzlData();
+    /*setInterval(function () {
+        var object = getData.next();
+        itemsData = object.value;
+    },10000);*/
+
+    let promise = new Promise(function(resolve, reject) {
+        var object = getData.next();
+        resolve(object.value);
     });
-    var app = new Vue({
-        el:'#div-zl',
-        data:{
-            page:1,
-            items:itemsData,
-        },
-        methods:{
-            bgSuccess:function(data){
-                if(data.state === 1){
-                    return {
-                        'background-color':'#dff0d8'
+
+    promise.then(function (data) {
+        let itemsData = data;
+        let app = new Vue({
+            el:'#div-zl',
+            data:{
+                page:1,
+                items:itemsData,
+                query:{
+                    status:"",
+                    ssqd:""
+                }
+            },
+            methods:{
+                bgSuccess:function(data){
+                    if(data.state === 1){
+                        return {
+                            'background-color':'#dff0d8'
+                        }
                     }
+                },
+                stop:function(data){
+                    window.event.preventDefault();
+                    if($(window.event.target).attr("disabled")){
+                        return;
+                    }
+                    //发给闸控系统
+                    swal({
+                                title: "确认急停?",
+                                type: "error",
+                                showCancelButton: true,
+                                confirmButtonClass: "btn-danger",
+                                cancelButtonText: "否",
+                                confirmButtonText: "是",
+                                closeOnConfirm: false
+                            },
+                            function () {
+                                swal("急停成功====等待接入系统", "", "success");
+                            }
+                    );
+                },
+                view:function(data){
+                    window.event.preventDefault();
+                    //发给闸控系统
+                    alert("系统联动，开发准备中......");
+                },
+                sort: function () {
+                    let this_ = this;
+                    this.items.sort(function (curData, nextData) {
+                        if((curData.state === this_.query.status) && (curData.ssqd === this_.query.ssqd) ){
+                            return -10;
+                        }
+                        if((nextData.state === this_.query.status) && (nextData.ssqd === this_.query.ssqd) ){
+                            return 10;
+                        }
+
+                        if((curData.state === this_.query.status) || (curData.ssqd === this_.query.ssqd) ){
+                            return -1;
+                        }
+                        if((nextData.state === this_.query.status) || (nextData.ssqd === this_.query.ssqd) ){
+                            return 1;
+                        }
+                        return curData.time - nextData.time;
+                    });
+                },
+                filter: function () {
+                    let this_ = this;
+                    return itemsData.filter(function(item){
+                        return (this_.query.status!==""?item.state===this_.query.status:1)&&(this_.query.ssqd!==""?item.ssqd===this_.query.ssqd:1);
+                    })
+                }
+            },
+            computed:{
+                readNum:function(){
+                    //return itemsData.reduce(function(total,value){
+                    return itemsData.reduce(function(total,value){
+                        return total + value.state;
+                    },0);
+                }
+            },
+            watch:{
+                'query.status': function (newstatus) {
+                    //this.sort();
+                    this.items = this.filter();
+                },
+                'query.ssqd': function (newssqd) {
+                    //this.sort();
+                    this.items = this.filter();
                 }
             }
-        },
-        computed:{
-            readNum:function(){
-                return itemsData.reduce(function(total,value){
-                    return total + value.state;
-                },0);
-            }
-        }
+        });
+        setInterval(function () {
+            var object = getData.next();
+            app.items = object.value;
+            itemsData =  object.value;
+            app.items = app.filter();
+        },1000*60);
     });
+
 </script>
 </body>
 </html>
